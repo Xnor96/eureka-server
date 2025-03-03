@@ -1,5 +1,5 @@
-# Usa Java 17 si tu proyecto lo necesita
-FROM openjdk:17-jdk-slim AS build
+# Fase de compilación
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /app
 
 # Copia los archivos del proyecto
@@ -9,7 +9,7 @@ COPY . .
 RUN apt-get update && apt-get install -y maven && mvn clean package -DskipTests
 
 # Imagen final
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
